@@ -24,23 +24,5 @@ class FlightAttendantSpec extends TestKit(ActorSystem("FlightAttendantSpec",
       a ! GetDrink("Soda")
       expectMsg(Drink("Soda"))
     }
-
-    "get two drinks when asked twice" in {
-      val a = TestActorRef(Props(TestFlightAttendant()))
-      a ! GetDrink("Soda")
-      expectMsg(Drink("Soda"))
-      a ! GetDrink("Soda")
-      expectMsg(Drink("Soda"))
-    }
-
-    "get three drinks when asked three times" in {
-      val a = TestActorRef(Props(TestFlightAttendant()))
-      a ! GetDrink("Soda")
-      expectMsg(Drink("Soda"))
-      a ! GetDrink("Soda")
-      expectMsg(Drink("Soda"))
-      a ! GetDrink("Schnaps")
-      expectMsg(Drink("Schnaps"))
-    }
   }
 }
