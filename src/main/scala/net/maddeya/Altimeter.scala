@@ -11,9 +11,12 @@ object Altimeter {
   // rateofclimb changes
   case class RateChange(amount: Float)
   case class AltitudeUpdate(altitude: Double)
+
+  def apply() = new Altimeter with ProductionEventSource
 }
 
-class Altimeter extends Actor with ActorLogging with EventSource {
+class Altimeter extends Actor with ActorLogging {
+  this: EventSource =>
   import Altimeter._
 
   // We need an "ExecutionContext" for the scheduler. This
@@ -49,7 +52,7 @@ class Altimeter extends Actor with ActorLogging with EventSource {
   // An internal message we send to ourselves to tell us
   // to update our altitude
   case object Tick
-  
+
   def altimeterReceive: Receive = {
     // Our rate of climb has changed
     case RateChange(amount) =>
@@ -64,9 +67,9 @@ class Altimeter extends Actor with ActorLogging with EventSource {
       lastTick = tick
       sendEvent(AltitudeUpdate(altitude))
   }
-  
+
   def receive = eventSourceReceive orElse altimeterReceive
-  
+
   // Kill our ticker when we stop
   override def postStop(): Unit = ticker.cancel
 }
