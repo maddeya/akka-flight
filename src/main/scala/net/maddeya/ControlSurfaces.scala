@@ -5,7 +5,7 @@ import akka.actor.{ Actor, ActorRef }
 // The ControlSurfaces object carries messages for
 // controlling the plane
 object ControlSurfaces {
-  // amount is a value between 1 and 1. The altimeter
+  // amount is a value between -1 and 1. The altimeter
   // ensures that any value outside that range is truncated
   // to be within it.
   case class StickBack(amount: Float)
@@ -25,6 +25,6 @@ class ControlSurfaces(altimeter: ActorRef) extends Actor {
     // Pilot pushes the stick forward and we inform the
     // Altimeter that we're descending
     case StickForward(amount) =>
-      altimeter ! RateChange(1 * amount)
+      altimeter ! RateChange(-1 * amount)
   }
 }
