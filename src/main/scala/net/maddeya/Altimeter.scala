@@ -43,13 +43,12 @@ class Altimeter extends Actor with ActorLogging with EventSource {
 
   // We need to periodically update our altitude. This
   // scheduled message send will tell us when to do that
-  val ticker = context.system.scheduler.schedule(
-    100.millis, 100.millis, self, Tick)
+  val ticker = context.system.scheduler.schedule(100.millis, 100.millis, self, Tick)
 
   // An internal message we send to ourselves to tell us
   // to update our altitude
   case object Tick
-  
+
   def altimeterReceive: Receive = {
     // Our rate of climb has changed
     case RateChange(amount) =>
@@ -64,9 +63,9 @@ class Altimeter extends Actor with ActorLogging with EventSource {
       lastTick = tick
       sendEvent(AltitudeUpdate(altitude))
   }
-  
+
   def receive = eventSourceReceive orElse altimeterReceive
-  
+
   // Kill our ticker when we stop
   override def postStop(): Unit = ticker.cancel
 }
