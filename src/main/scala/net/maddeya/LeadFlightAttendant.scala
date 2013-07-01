@@ -33,7 +33,7 @@ class LeadFlightAttendant extends Actor {
     import scala.collection.JavaConverters._
     val attendantNames =
       context.system.settings.config.getStringList(
-        "zzz.akka.avionics.flightcrew.attendantNames").asScala
+        "net.maddeya.flightcrew.attendantNames").asScala
     attendantNames take numberOfAttendants foreach { name =>
       // We create the actors within our context such that
       // they are children of this Actor

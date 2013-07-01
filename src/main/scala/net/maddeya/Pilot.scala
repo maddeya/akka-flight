@@ -12,7 +12,7 @@ class Pilot extends Actor {
   var copilot: ActorRef = context.system.deadLetters
   var autopilot: ActorRef = context.system.deadLetters
   val copilotName = context.system.settings.config.getString(
-    "zzz.akka.avionics.flightcrew.copilotName")
+    "net.maddeya.flightcrew.copilotName")
 
   def receive = {
     case ReadyToGo =>
